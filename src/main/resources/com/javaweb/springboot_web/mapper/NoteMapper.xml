@@ -20,7 +20,7 @@
     </insert>
 
 
-    <update id="update">
+    <update id="updateById">
         update note set content = #{content} where id = #{id}
     </update>
 

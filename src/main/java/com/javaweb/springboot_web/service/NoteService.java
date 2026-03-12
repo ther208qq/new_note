@@ -11,4 +11,8 @@ public interface NoteService {
 
     public void insert(Note note);
 
+
+    public Integer deleteById(Integer id);
+
+    public Integer updateById(Note note);
 }

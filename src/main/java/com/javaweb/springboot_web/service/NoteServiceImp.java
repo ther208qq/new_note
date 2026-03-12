@@ -31,4 +31,18 @@ public class NoteServiceImp implements NoteService{
         noteMapper.insert(note);
     }
 
+
+    @Override
+    public Integer deleteById(Integer id){
+        noteMapper.deleteById(id);
+        return 1;
+    }
+
+    @Override
+    public Integer updateById(Note note){
+        Integer lines = noteMapper.updateById(note);
+
+        return lines;
+    }
+
 }

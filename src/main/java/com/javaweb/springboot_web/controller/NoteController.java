@@ -19,6 +19,7 @@ public class NoteController {
     @Autowired //自动注入
     private NoteService noteService;
 
+    //展示所有笔记
     @RequestMapping("/showNote")
     public List<Note> showNote(){
 
@@ -29,13 +30,34 @@ public class NoteController {
         return noteList;
     }
 
+    //插入笔记
     @RequestMapping("/insert")
-    public String inset(Note note){
+    public String insert(Note note){
 
         System.out.println("正在调用");
         noteService.insert(note);
-
         return "sucess";
+    }
+
+    //根据id删除单个笔记
+    @RequestMapping("/deletebyid")
+    public String deletebyid(Integer id){
+
+        Integer lines = noteService.deleteById(id);
+
+        System.out.println("删除成功,已删除:"+lines+"行");
+
+        return "sucess delete";
+    }
+
+    //根据id更新笔记
+    @RequestMapping("/updatebyid")
+    public String updatebyid(Note note){
+
+        Integer lines = noteService.updateById(note);
+
+        return "sucess update";
+
     }
 
 }

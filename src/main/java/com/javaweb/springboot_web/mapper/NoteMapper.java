@@ -26,5 +26,7 @@ public interface NoteMapper {
 
     //更新
 //    @Update("update note set content = #{content} where id = #{id}")
-    public void update(Note note);
+    public Integer updateById(Note note);
+
+
 }
