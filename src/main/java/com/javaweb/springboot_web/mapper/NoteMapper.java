@@ -28,5 +28,8 @@ public interface NoteMapper {
 //    @Update("update note set content = #{content} where id = #{id}")
     public Integer updateById(Note note);
 
+    //清空所有
+    public void clear();
+
 
 }

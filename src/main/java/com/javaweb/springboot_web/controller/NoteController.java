@@ -5,8 +5,7 @@ import com.javaweb.springboot_web.pojo.Note;
 import com.javaweb.springboot_web.service.NoteService;
 import com.javaweb.springboot_web.service.NoteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/note")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST,RequestMethod.PUT})
 public class NoteController {
 
     @Autowired //自动注入
@@ -32,7 +32,7 @@ public class NoteController {
 
     //插入笔记
     @RequestMapping("/insert")
-    public String insert(Note note){
+    public String insert(@RequestBody Note note){
 
         System.out.println("正在调用");
         noteService.insert(note);
@@ -41,7 +41,7 @@ public class NoteController {
 
     //根据id删除单个笔记
     @RequestMapping("/deletebyid")
-    public String deletebyid(Integer id){
+    public String deletebyid(@RequestParam Integer id){
 
         Integer lines = noteService.deleteById(id);
 
@@ -52,12 +52,21 @@ public class NoteController {
 
     //根据id更新笔记
     @RequestMapping("/updatebyid")
-    public String updatebyid(Note note){
+    public String updatebyid(@RequestBody Note note){
 
         Integer lines = noteService.updateById(note);
 
         return "sucess update";
 
     }
+
+    //删除所有笔记
+    @RequestMapping("/clear")
+    public String clear(){
+        noteService.clear();
+
+        return "sucess clear";
+    }
+
 
 }

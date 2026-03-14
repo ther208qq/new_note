@@ -45,4 +45,9 @@ public class NoteServiceImp implements NoteService{
         return lines;
     }
 
+    @Override
+    public void clear(){
+        noteMapper.clear();
+    }
+
 }
