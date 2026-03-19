@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class Note {
 
+
     private Integer id;
 
     private String content;

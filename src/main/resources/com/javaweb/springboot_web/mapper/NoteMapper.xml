@@ -9,6 +9,7 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into note(content) values(#{content})
+
     </insert>
 
 
