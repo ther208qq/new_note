@@ -13,8 +13,6 @@ public interface NoteMapper {
 
     public List<Note> findAll();
 
-//    @Select("select * from note where id = #{id} ")
-//    public List<Note> findById(@Param());
 
     //删除
 //    @Delete("delete from note where id = #{id}")
