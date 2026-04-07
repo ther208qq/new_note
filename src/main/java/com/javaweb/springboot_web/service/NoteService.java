@@ -8,7 +8,6 @@ public interface NoteService {
 
     public List<Note> findAll();
 
-
     public void insert(Note note);
 
     public Integer deleteById(Integer id);

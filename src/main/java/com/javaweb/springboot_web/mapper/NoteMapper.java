@@ -9,21 +9,19 @@ import java.util.List;
 public interface NoteMapper {
 
     //查找
-//    @Select("select * from note")
 
     public List<Note> findAll();
 
 
     //删除
-//    @Delete("delete from note where id = #{id}")
     public Integer deleteById(Integer id);
 
     //增加
-//    @Insert("insert into note(id,content) values(#{id},#{content})")
+
     public void insert(Note note);
 
     //更新
-//    @Update("update note set content = #{content} where id = #{id}")
+
     public Integer updateById(Note note);
 
     //清空所有

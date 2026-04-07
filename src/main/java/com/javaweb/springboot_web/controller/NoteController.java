@@ -36,7 +36,7 @@ public class NoteController {
 
         System.out.println("正在调用");
         noteService.insert(note);
-        return "sucess";
+        return "success";
     }
 
     //根据id删除单个笔记
@@ -47,7 +47,7 @@ public class NoteController {
 
         System.out.println("删除成功,已删除:"+lines+"行");
 
-        return "sucess delete";
+        return "success delete";
     }
 
     //根据id更新笔记
@@ -56,7 +56,7 @@ public class NoteController {
 
         Integer lines = noteService.updateById(note);
 
-        return "sucess update";
+        return "success update";
 
     }
 
@@ -65,7 +65,7 @@ public class NoteController {
     public String clear(){
         noteService.clear();
 
-        return "sucess clear";
+        return "success clear";
     }
 
 
