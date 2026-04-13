@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javaweb.springboot_web.mapper.ChapterMapper">
+    <!--    id=方法名 resultType=返回值类型-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into chapter (title,content,notebook_id)
+        values(#{title},#{content},#{notebook_id})
+    </insert>
+
+    <update id="updateById">
+        update chapter set title = #{title},content = #{content} where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from chapter where id = #{id}
+    </delete>
+
+    <delete id="clear">
+        <!--        delete from note-->
+        truncate table chapter
+    </delete>
+
+    <!--查找函数-->
+    <select id = "findAll" resultType="com.javaweb.springboot_web.pojo.Chapter">
+        select * from chapter
+    </select>
+
+</mapper>
