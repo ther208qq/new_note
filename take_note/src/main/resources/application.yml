@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: prod
+    include: redis
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: "classpath*:/mapper/**/*.xml"
