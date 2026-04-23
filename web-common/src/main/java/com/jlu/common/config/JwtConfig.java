@@ -12,6 +12,7 @@ import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+//创建并初始化Bean容器
 @Configuration
 @ConditionalOnProperty(name = "jlu.jwt.sharding", havingValue = "true")
 public class JwtConfig {

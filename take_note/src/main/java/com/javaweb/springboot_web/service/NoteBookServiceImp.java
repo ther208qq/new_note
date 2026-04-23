@@ -28,12 +28,11 @@ public class NoteBookServiceImp extends ServiceImpl<NoteBookMapper,NoteBook> imp
 
     public String getUserNickname(String username) {
 
-        //添加id验证
-//        String res = userClient.queryNicknameByUsername(username);
+        //在service层通过用户信息进行业务操作
         Long userId = UserContext.getUserInfo();
-        String res = userClient.queryNicknameByUsername(username);
-//        System.out.println(res);
 
+        //调用auth-service微服务
+        String res = userClient.queryNicknameByUsername(username);
         if(res == null){
             return "默认昵称";
         }

@@ -1,11 +1,11 @@
 package com.javaweb.springboot_web.config;
 
+import com.jlu.common.util.UserContext;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -18,20 +18,11 @@ public class DefaultFeignConfig {
             @Override
             public void apply(RequestTemplate template){
 
-                ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-
-                if (attrs == null) {
-                    return;
-                }
-
-                HttpServletRequest request = attrs.getRequest();
-                String userInfo = request.getHeader("user-info");
-
-                if (userInfo != null) {
-                    template.header("user-info", userInfo); // ⭐ 核心就在这里
-                }
-
-                System.out.println("Feign传递 user-info: " +userInfo);
+               Long userId = UserContext.getUserInfo();
+               if(userId == null){
+                   return;
+               }
+               template.header("user-info",String.valueOf(userId));
             }
         };
     }

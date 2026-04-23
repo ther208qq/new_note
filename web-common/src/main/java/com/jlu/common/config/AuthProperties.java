@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+//提供给拦截器或网关用的
 @Data
 @Component
 @ConfigurationProperties(prefix="jlu.auth")

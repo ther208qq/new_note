@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: take-note
+  profiles:
+    active: prod
+    include: redis
+  cloud:
+    nacos:
+      server-addr: 192.168.88.100:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - # noinspection SpringBootApplicationYaml
+            data-id: shared-jdbc.yaml
+  openfeign:
+    okhttp:
+      enabled: true
+
+web:
+  db:
+    host: 192.168.88.100
+    pw: 1234

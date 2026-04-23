@@ -18,6 +18,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+/*这个网关拦截器负责处理请求，判断是否是白名单。主要是负责非白名单的。解析请求头的token，如果解析成功，得到id，那就把id封装传递到下游服务。*/
+
+
 @Component
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AuthProperties.class)
@@ -35,6 +38,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getPath().toString();
 
+        //获取请求头
         String token = null;
         List<String> headers = request.getHeaders().get("authorization");
 
@@ -43,15 +47,26 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             token = headers.get(0);
         }
 
+        //处理白名单
         if(isExclude(path)){
             return chain.filter(exchange);
         }
 
+        //非白名单，解析token
         Long userId;
 
         try{
+            //使用jwt工具解析token,解析成功才能进行下一步
             userId = jwtTool.parseToken(token);
-            System.out.print("token解析成功："+userId);
+
+            //传递用户信息
+            String userInfo = userId.toString();
+            ServerWebExchange ex = exchange.mutate()
+                    .request(b->b.header("user-info",userInfo))
+                    .build();
+
+            return chain.filter(ex);
+
         }catch(UnauthorizedException e){
             ServerHttpResponse response = exchange.getResponse();
             response.setRawStatusCode(401);
@@ -59,21 +74,14 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             return response.setComplete();
         }
 
-        //传递用户信息
-        String userInfo = userId.toString();
-        ServerWebExchange ex = exchange.mutate()
-                        .request(b->b.header("user-info",userInfo))
-                                .build();
-        
-        return chain.filter(ex);
     }
 
     private boolean isExclude(String antpath) {
+        //获取到路径
         List<String> excludePaths = authProperties.getExcludePaths();
 
-        // 关键打印 1：看看配置到底读到没
         System.out.println("DEBUG: 当前配置文件中的白名单: " + excludePaths);
-        // 关键打印 2：看看当前请求的路径长什么样
+
         System.out.println("DEBUG: 当前正在匹配的路径: " + antpath);
 
         if (CollectionUtils.isEmpty(excludePaths)) {

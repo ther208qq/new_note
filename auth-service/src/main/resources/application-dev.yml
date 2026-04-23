@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.88.100:8848
+
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://${web.db.host}:3306/notes_database?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
+#    username: root
+#    password: ${web.db.pw}
+#
+#mybatis:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  mapper-locations: classpath:**mapper/*.xml
+
+jlu:
+  jwt:
+    sharding: true
+    location: classpath:auth-service.jks
+    alias: hmall
+    password: "hmall123"
+    tokenTTL: 30m
+
+web:
+  db:
+    host: 192.168.88.100
+    pw: 1234

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: auth-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 192.168.88.100:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - # noinspection SpringBootApplicationYaml
+            data-id: shared-jdbc.yaml

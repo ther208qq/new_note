@@ -9,9 +9,8 @@ import java.time.Duration;
 
 @Data
 @Component
-@ConfigurationProperties(prefix="jlu.jwt")
+@ConfigurationProperties(prefix="jlu.jwt") //负责将yml中的信息映射到java对象中
 public class JwtProperties {
-
 
     private String location;
     private String alias;
