@@ -13,7 +13,6 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import static com.baomidou.mybatisplus.core.toolkit.Wrappers.lambdaQuery;
 
 //Service 无需编写任何service代码
 @Service

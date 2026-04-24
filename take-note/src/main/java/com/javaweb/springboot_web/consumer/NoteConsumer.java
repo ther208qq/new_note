@@ -3,20 +3,14 @@ package com.javaweb.springboot_web.consumer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javaweb.springboot_web.mapper.NoteMapper;
 import com.javaweb.springboot_web.pojo.Note;
 import com.javaweb.springboot_web.service.NoteService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.stream.MapRecord;
-import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class NoteConsumer {

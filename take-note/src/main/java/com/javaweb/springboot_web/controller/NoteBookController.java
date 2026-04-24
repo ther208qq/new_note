@@ -3,8 +3,6 @@ package com.javaweb.springboot_web.controller;
 
 import com.javaweb.springboot_web.pojo.NoteBook;
 import com.javaweb.springboot_web.service.NoteBookService;
-import com.jlu.common.util.UserContext;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

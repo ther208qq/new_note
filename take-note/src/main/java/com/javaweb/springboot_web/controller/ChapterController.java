@@ -3,7 +3,6 @@ package com.javaweb.springboot_web.controller;
 
 import com.javaweb.springboot_web.pojo.Chapter;
 import com.javaweb.springboot_web.service.ChapterService;
-import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
