@@ -6,7 +6,6 @@ import com.jlu.auth.service.UserService;
 import com.jlu.auth.mapper.UserMapper;
 import com.jlu.common.util.JwtTool;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
