@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: take-note
+  profiles:
+    include: redis
+  cloud:
+    nacos:
+      server-addr: 192.168.88.100:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - data-id: shared-jdbc.yml
+  openfeign:
+    okhttp:
+      enabled: true
+  rabbitmq:
+    host: 192.168.88.100
+    port: 5672
+    virtual-host: /guest
+    username: guest
+    password: 1234
+    listener:
+      hello:
+        prefetch: 1
+
+web:
+  db:
+    host: 192.168.88.100
+    pw: 1234

@@ -35,6 +35,7 @@ public class UserController {
     public String getnickname(@RequestParam("username") String username){
         try{
             String res = userService.getnickname(username);
+            System.out.println("返回结果是："+res);
             if(res!=null){
                 return res;
             }

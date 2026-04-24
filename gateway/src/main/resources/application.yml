@@ -12,7 +12,7 @@ spring:
         - id: take-note
           uri: lb://take-note
           predicates:
-            - Path=/notebook/**
+            - Path=/note/**
         - id: user
           uri: lb://auth-service
           predicates:
@@ -29,3 +29,4 @@ jlu:
     exclude-Paths:
       - /user/login
       - /user/register
+      - /notebook/showNoteBook
