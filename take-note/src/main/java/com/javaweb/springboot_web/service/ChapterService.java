@@ -1,18 +1,20 @@
 package com.javaweb.springboot_web.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.javaweb.springboot_web.pojo.Chapter;
+import com.javaweb.springboot_web.pojo.NoteBook;
 
 import java.util.List;
 
-public interface ChapterService {
+public interface ChapterService extends IService<Chapter> {
 
-    public List<Chapter> findAll();
+    public List<Chapter> list();
 
-    public void insert(Chapter chapter);
+    public Chapter insert(Chapter chapter);
 
-    public Integer deleteById(Integer id);
+    public boolean deleteById(Long id);
 
-    public Integer updateById(Chapter chapter);
+    public boolean updateById(Chapter chapter);
 
     public void clear();
 

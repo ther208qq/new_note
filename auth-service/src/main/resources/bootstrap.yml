@@ -11,6 +11,7 @@ spring:
         file-extension: yaml
         shared-configs:
           - data-id: shared-jdbc.yml
+          - data-id: shared-seata.yaml
   data:
     redis:
       repositories:

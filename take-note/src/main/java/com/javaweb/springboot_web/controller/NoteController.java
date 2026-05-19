@@ -19,53 +19,65 @@ public class NoteController {
     private NoteService noteService;
 
     //展示所有笔记
-    @RequestMapping("/showNote")
+    @GetMapping
     public List<Note> showNote(){
 
-//        NoteService noteservice = new NoteServiceImp();
+        List<Note> noteList = noteService.list();
 
-        List<Note> noteList = noteService.findAll();
+        System.out.println("输出结果为:"+noteList);
 
         return noteList;
     }
 
     //插入笔记
-    @RequestMapping("/insert")
+    @PostMapping
     public String insert(@RequestBody Note note){
 
-        System.out.println("正在调用");
         noteService.insert(note);
         return "success";
     }
 
     //根据id删除单个笔记
-    @RequestMapping("/deletebyid")
-    public String deletebyid(@RequestParam Integer id){
+    @DeleteMapping("/{id}")
+    public String deletebyid(@PathVariable Integer id){
 
-        Integer lines = noteService.deleteById(id);
-
-        System.out.println("删除成功,已删除:"+lines+"行");
+        boolean res = noteService.deleteById(id);
 
         return "success delete";
     }
 
     //根据id更新笔记
-    @RequestMapping("/updatebyid")
+    @PutMapping
     public String updatebyid(@RequestBody Note note){
 
         noteService.updateById(note);
 
         return "success update";
-
     }
 
     //删除所有笔记
-    @RequestMapping("/clear")
+    @DeleteMapping
     public String clear(){
         noteService.clear();
-
         return "success clear";
     }
 
+    //summary
+    @PostMapping("/summary")
+    public String summary(@RequestBody  String content){
+        String id = noteService.summary(content);
+        return id;
+    }
+
+    //check
+    @GetMapping("/check/{id}")
+    public String check(@PathVariable String id){
+        String res = noteService.check(id);
+
+        if(res != "processing"){
+            return res;
+        }
+        return "processing";
+    }
 
 }

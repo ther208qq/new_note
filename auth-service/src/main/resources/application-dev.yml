@@ -2,6 +2,10 @@ spring:
   cloud:
     nacos:
       server-addr: 192.168.88.100:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8090
+      http-method-specify: true
 
 jlu:
   jwt:
@@ -11,7 +15,10 @@ jlu:
     password: "hmall123"
     tokenTTL: 30m
 
-web:
-  db:
-    host: 192.168.88.100
-    pw: 1234
+server:
+  port: 8081
+  tomcat:
+    threads:
+      max: 50
+    accept-count: 50
+    max-connection: 100

@@ -17,51 +17,52 @@ public class NoteBookController {
     private NoteBookService noteBookService;
 
     //展示所有book
-    @RequestMapping("showNoteBook")
+    @GetMapping
     public List<NoteBook> showBook(){
         List<NoteBook> noteBookList = noteBookService.list();
+        System.out.println("返回结果是："+noteBookList);
         return noteBookList;
     }
 
     //插入book
-    @RequestMapping("/insert")
+    @PostMapping
     public String insert(@RequestBody NoteBook noteBook){
-
         System.out.println("正在调用");
-        noteBookService.save(noteBook);
-        return "success";
+        boolean res = noteBookService.insert(noteBook);
+        if(res){
+            return "success";
+        }
+        return "false";
     }
 
     //根据id删除单个book
-    @RequestMapping("/deletebyid")
-    public String deletebyid(@RequestParam Integer id){
+    @DeleteMapping("/{id}")
+    public String deletebyid(@PathVariable Long id){
 
-        noteBookService.removeById(id);
+        noteBookService.deleteById(id);
 
         return "success delete";
     }
 
 //    //根据id更新
-    @PutMapping("/updatebyid")
+    @PutMapping
     public String updatebyid(@RequestBody NoteBook noteBook){
 
         noteBookService.updateById(noteBook);
 
         return "success update";
-
     }
 
     //删除所有book
-    @RequestMapping("/clear")
+    @DeleteMapping
     public String clear(){
         noteBookService.remove(null);
         return "success clear";
     }
 
-    @GetMapping("/getnickname")
-    private String getUserNickname(@RequestParam("username") String username){
+    @GetMapping("/getnickname/{username}")
+    private String getUserNickname(@PathVariable("username") String username){
         String res = noteBookService.getUserNickname(username);
-
         return res;
     }
 

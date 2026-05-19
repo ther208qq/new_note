@@ -23,7 +23,8 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/error",
                         "/user/login",
-                        "/user/register")
+                        "/user/register",
+                        "/note")
                 .order(-1);
     }
 

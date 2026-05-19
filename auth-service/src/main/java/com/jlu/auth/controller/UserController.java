@@ -29,10 +29,14 @@ public class UserController {
         if(res.equals("success")){
             return "success";
         }
+        else if(res.equals("already existed")){
+            return "already existed";
+        }
         return "fail";
     }
-    @GetMapping("/getnickname")
-    public String getnickname(@RequestParam("username") String username){
+    @GetMapping("/{username}")
+    public String getnickname(@PathVariable("username") String username){
+        System.out.println("接收到"+username);
         try{
             String res = userService.getnickname(username);
             System.out.println("返回结果是："+res);

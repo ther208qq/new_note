@@ -29,7 +29,8 @@
 		<module>gateway</module>
         <module>web-common</module>
 		<module>auth-service</module>
-    </modules>
+        <module>ai-service</module>
+	</modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
@@ -80,6 +81,18 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-amqp</artifactId>
 				<version>2.7.15</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+				<version>2023.0.3.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+				<version>2023.0.1.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

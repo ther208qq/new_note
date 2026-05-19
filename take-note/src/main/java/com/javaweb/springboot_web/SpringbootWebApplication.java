@@ -10,12 +10,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication(scanBasePackages = {"com.javaweb.springboot_web", "com.jlu.common"})
 public class SpringbootWebApplication {
 
-
 	public static void main(String[] args) {
+
 		//获取静态Bean
 		ConfigurableApplicationContext ctx= SpringApplication.run(SpringbootWebApplication.class, args);
-
-		RabbitTemplate rabbitTemplate = ctx.getBean(RabbitTemplate.class);
 	}
 
 }

@@ -17,47 +17,41 @@ public class ChapterController {
     private ChapterService chapterService;
 
     //展示所有笔记
-    @RequestMapping("/showChapter")
+    @GetMapping()
     public List<Chapter> showNote(){
 
-
-        List<Chapter> chapterList = chapterService.findAll();
-
+        List<Chapter> chapterList = chapterService.list();
         return chapterList;
     }
 
     //插入笔记
-    @RequestMapping("/insert")
-    public String insert(@RequestBody Chapter chapter){
+    @PostMapping
+    public Chapter insert(@RequestBody Chapter chapter){
 
-        System.out.println("正在调用");
-        chapterService.insert(chapter);
-        return "success";
+        Chapter res = chapterService.insert(chapter);
+        return res;
     }
 
     //根据id删除单个笔记
-    @RequestMapping("/deletebyid")
-    public String deletebyid(@RequestParam Integer id){
+    @DeleteMapping("/{id}")
+    public String deletebyid(@PathVariable Long id){
 
-        Integer lines = chapterService.deleteById(id);
+        boolean res = chapterService.deleteById(id);
 
-        System.out.println("删除成功,已删除:"+lines+"行");
+        return res? "success":"fasle";
 
-        return "success delete";
     }
-
     //根据id更新笔记
-    @RequestMapping("/updatebyid")
+    @PutMapping
     public String updatebyid(@RequestBody Chapter chapter){
 
-        Integer lines = chapterService.updateById(chapter);
+        boolean res = chapterService.updateById(chapter);
 
-        return "success update";
-
+        return res ? "success":"false";
     }
 
     //删除所有笔记
-    @RequestMapping("/clear")
+    @DeleteMapping("clear")
     public String clear(){
         chapterService.clear();
 

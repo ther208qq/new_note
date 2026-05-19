@@ -7,4 +7,11 @@ public interface NoteBookService extends IService<NoteBook> {
 
     public String getUserNickname(String username);
 
+    public boolean insert(NoteBook noteBook);
+
+    public boolean deleteById(Long id);
+
+    public NoteBook selectById(Long id);
+
+
 }

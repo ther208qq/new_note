@@ -1,9 +1,12 @@
 package com.javaweb.springboot_web.service;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.javaweb.springboot_web.client.AiClient;
 import com.javaweb.springboot_web.mapper.NoteMapper;
 import com.javaweb.springboot_web.pojo.Note;
+import com.javaweb.springboot_web.pojo.NoteBook;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -22,26 +27,28 @@ import java.util.concurrent.CompletableFuture;
 public class NoteServiceImp extends ServiceImpl<NoteMapper, Note> implements NoteService{
 
     @Autowired //自动注入
-//    private NoteDao noteDao;
     private NoteMapper noteMapper;
 
     @Autowired(required = false)
     private StringRedisTemplate redisTemplate;
 
-//    @Autowired
-//    private ExpressProductor productor;
     @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    //将对象转换成jackson字符串
-    private final ObjectMapper objectMapper = new ObjectMapper();// jackson工具
-    @Autowired
-    private RestTemplate restTemplate;
+    private AiClient aiClient;
 
     @Override
-    public List<Note> findAll(){
+    public List<Note> list(){
 
-        List<Note> noteList = noteMapper.findAll();
+        String redisKey = "note:all";
+
+        String value = redisTemplate.opsForValue().get(redisKey);
+
+        if(value != null){
+            return JSON.parseArray(value, Note.class);
+        }
+
+        List<Note> noteList = noteMapper.selectList(null);
+
+        redisTemplate.opsForValue().set("notebook:all", JSON.toJSONString(noteList),5, TimeUnit.MINUTES);
 
         return noteList;
     }
@@ -49,45 +56,26 @@ public class NoteServiceImp extends ServiceImpl<NoteMapper, Note> implements Not
     @Override
     public void insert(Note note){
 
-        try {
-            // 2. 发送给消息队列，不直接操作数据库
-            //fanout.queue1负责插入note
-            rabbitTemplate.convertAndSend("fanout.queue1", note);
-            log.info("笔记已发送至消息队列，ID: {}", note.getId());
-        } catch (Exception e) {
-            log.error("Redis 异步操作失败（可能是 Redis 挂了），但不影响数据库存盘。错误原因: {}", e.getMessage());
-            //这样即使redis挂了也能正常传入数据库，同时也不影响传入速度
-            noteMapper.insert(note);
-        }
-    }
+        int res = noteMapper.insert(note);
 
-    @Override
-    public void saveNote(Note note){
-        //提供给消费者使用
-        noteMapper.insert(note);
+        if(res>0){
+            redisTemplate.delete("note:all");
+        }
+
     }
 
     @Transactional
     @Override
-    public Integer deleteById(Integer id){
+    public boolean deleteById(Integer id){
 
+        //先删数据库
         int result = noteMapper.deleteById(id);
 
         if(result > 0){
-            String key = "note:" + id;
-
-            //异步
-            CompletableFuture.runAsync(() -> {
-                try {
-                    redisTemplate.delete(key);
-                } catch (Exception e) {
-                    log.warn("Redis失败", e);
-                }
-            });
-
+            redisTemplate.delete("note:all");
+            return true;
         }
-
-        return result;
+        return false;
     }
 
     @Override
@@ -96,15 +84,8 @@ public class NoteServiceImp extends ServiceImpl<NoteMapper, Note> implements Not
         int lines = noteMapper.updateById(note);
 
         if(lines>0){
-            String key = "note:" + note.getId();
-
-            try{
-                redisTemplate.delete(key);//删除旧缓存
-                log.info("数据库更新成功，已清理 Redis 缓存 Key: {}", key);
-
-            }catch (Exception e){
-                log.error("更新后清理 Redis 缓存失败，ID: {}", note.getId(), e);
-            }
+            redisTemplate.delete("note:all");
+            return false;
         }
         return true;
     }
@@ -113,16 +94,20 @@ public class NoteServiceImp extends ServiceImpl<NoteMapper, Note> implements Not
     public void clear(){
         noteMapper.clear();
 
-        try {
-            Set<String> keys = redisTemplate.keys("note:*");
-            if (keys != null && !keys.isEmpty()) {
-                redisTemplate.delete(keys);
-                log.info("已清空所有笔记缓存，共 {} 条", keys.size());
-            }
-        } catch (Exception e) {
-            log.error("清空 Redis 缓存失败", e);
-        }
+        redisTemplate.delete("note:all");
+    }
 
+    @Override
+    public String summary(String content){
+        String id = aiClient.summary(content);
+
+        return id;
+    }
+
+    @Override
+    public String check(String id){
+        String res = aiClient.check(id);
+        return res;
     }
 
 }

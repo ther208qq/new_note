@@ -7,13 +7,15 @@ import java.util.List;
 
 public interface NoteService extends IService<Note> {
 
-    public List<Note> findAll();
 
     public void insert(Note note);
 
-    public Integer deleteById(Integer id);
+    public boolean deleteById(Integer id);
 
     public void clear();
 
-    public void saveNote(Note note);
+    public String summary(String content);
+
+    public String check(String id);
+
 }

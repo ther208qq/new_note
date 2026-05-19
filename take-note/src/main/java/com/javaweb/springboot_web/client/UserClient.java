@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient("auth-service")
 public interface UserClient {
+
     @GetMapping("/user/getnickname")
     String queryNicknameByUsername(@RequestParam("username") String username);
 }

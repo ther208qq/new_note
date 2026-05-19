@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface NoteBookMapper extends BaseMapper<NoteBook> {
     //无需自己实现crud
+
 }

@@ -20,9 +20,9 @@ import java.time.LocalDateTime;
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 @TableName("notebook")
 public class NoteBook {
-    @TableId(type = IdType.AUTO)
-    private Integer id;
 
+    @TableId(type = IdType.AUTO)
+    private Long id;
     private String title;
 
     @TableField("createDateTime")
@@ -30,5 +30,4 @@ public class NoteBook {
     private LocalDateTime createDateTime;
 
     private String username;
-
 }

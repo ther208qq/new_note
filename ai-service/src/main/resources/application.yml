@@ -1,26 +1,12 @@
 spring:
   application:
-    name: take-note
-  profiles:
-    include: redis
+    name: ai-service
+
   cloud:
     nacos:
-      server-addr: 192.168.88.100:8848
-      config:
-        file-extension: yaml
-        shared-configs:
-          - data-id: shared-jdbc.yml
-          - data-id: shared-seata.yaml
-    sentinel:
-      transport:
-        dashboard: localhost:8090
-      http-method-specify: true
+      discovery:
+        server-addr: 192.168.88.100:8848
 
-  openfeign:
-    okhttp:
-      enabled: true
-    sentinel:
-      enable: true
   rabbitmq:
     publisher-confirm-type: correlated
     publisher-returns: true
@@ -50,11 +36,10 @@ spring:
           initial-interval: 1000ms
           max-attemps: 3
           stateless: true
-
+  data:
+    redis:
+      host: 192.168.88.100
+      port: 6379
+      password: 1234
 server:
-  port: 8082
-  tomcat:
-    threads:
-      max: 50
-    accept-count: 50
-    max-connection: 100
+  port: 8083

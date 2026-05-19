@@ -1,5 +1,6 @@
 package com.jlu.auth.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jlu.auth.entity.User;
 import com.jlu.auth.service.UserService;
@@ -19,6 +20,8 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
+
+    private  final UserMapper userMapper;
 
     private final JwtTool jwtTool;
 
@@ -42,20 +45,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public String register(User user) {
-        boolean res = this.save(user);
-        if(res){
-            return "success";
+
+        String username = user.getUsername();
+
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUsername, username);
+
+        if(exists(wrapper)){
+            return "already existed";
         }
-        return "fail";
+
+        return save(user) ? "sucess":"fail";
     }
 
     @Override
     public String getnickname(String username) {
 
+        System.out.println("传入的信息为:"+username);
+
         User user = this.lambdaQuery()
                 .select(User::getNickname)
                 .eq(User::getUsername,username)
                 .one();
+
         String nickname = (user != null) ? user.getNickname() : null;
 
         return nickname;
