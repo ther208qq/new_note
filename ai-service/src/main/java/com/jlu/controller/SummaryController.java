@@ -34,5 +34,4 @@ public class SummaryController {
         }
         return "processing";
     }
-
 }

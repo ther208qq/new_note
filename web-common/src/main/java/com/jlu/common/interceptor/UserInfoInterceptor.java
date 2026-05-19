@@ -18,13 +18,10 @@ public class UserInfoInterceptor implements HandlerInterceptor {
         //获取请求头的id
         String userInfo = request.getHeader("user-info");
 
-        System.out.println("==== 拦截器收到的 Header: " + userInfo + " ====");
-
         //非空，就把信息存到UserContext
         if(StrUtil.isNotBlank(userInfo)){
             Long userId = Long.valueOf(userInfo);
             UserContext.setUserId(userId);
-            System.out.println("存储信息到UserContext");
             return true;
         }
         return false;

@@ -20,7 +20,6 @@ public class NoteBookController {
     @GetMapping
     public List<NoteBook> showBook(){
         List<NoteBook> noteBookList = noteBookService.list();
-        System.out.println("返回结果是："+noteBookList);
         return noteBookList;
     }
 
